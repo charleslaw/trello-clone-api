@@ -7,6 +7,9 @@ const { NODE_ENV } = require("./config");
 
 const app = express();
 
+const usersRouter = require("./users/users-router");
+app.use("/api/users", usersRouter);
+
 const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 
 app.use(morgan(morganOption));
