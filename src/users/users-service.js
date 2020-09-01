@@ -1,4 +1,48 @@
+const xss = require("xss");
+const bcrypt = require("bcrypt");
+
+// regex checks if string contains upper case char, lower case char, number and special character
+const passwordValidationRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
+
 const UsersService = {
+  containsUserWithEmailAddress(db, email_address) {
+    return db("trelloclone_users")
+      .where({ email_address })
+      .first()
+      .then((user) => !!user);
+  },
+  insertUser(db, newUser) {
+    return db
+      .insert(newUser)
+      .into("trelloclone_users")
+      .returning("*")
+      .then(([user]) => user);
+  },
+  hashPassword(password) {
+    return bcrypt.hash(password, 12);
+  },
+  serializeUser(user) {
+    return {
+      id: user.id,
+      email: xss(user.email),
+      date_created: new Date(user.date_created),
+    };
+  },
+  validatePassword(password) {
+    if (password.length < 8) {
+      return "Password must be longer than 8 characters";
+    }
+    if (password.length > 72) {
+      return "Password must be less than 72 characters";
+    }
+    if (password.startsWith(" ") || password.endsWith(" ")) {
+      return "Password must not start or end with empty spaces";
+    }
+    if (!passwordValidationRegex.test(password)) {
+      return "Password must contain at least 1 lower case letter, 1 upper case letter, 1 number, and 1 special character";
+    }
+    return null;
+  },
   getAllUsers(knex) {
     return knex.select("*").from("trelloclone_users");
   },
