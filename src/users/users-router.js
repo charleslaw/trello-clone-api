@@ -19,8 +19,8 @@ usersRouter.post("/", jsonBodyParser, (req, res, next) => {
       return res.status(400).json({ error: passwordError });
   }
 
-  UsersService.containsUserWithEmailAddress(req.app.get("db"), email)
-    .then((emailAddress) => {
+  UsersService.containsUserWithEmailAddress(req.app.get("db"), email).then(
+    (emailAddress) => {
       if (emailAddress)
         return res.status(400).json({ error: "Username already exists" });
 
@@ -40,8 +40,8 @@ usersRouter.post("/", jsonBodyParser, (req, res, next) => {
           }
         );
       });
-    })
-    .catch(next);
+    }
+  );
   UsersService.insertUser(req.app.get("db"), newUser)
     .then((user) => {
       res
