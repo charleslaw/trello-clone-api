@@ -5,4 +5,5 @@ module.exports = {
   driver: "pg",
   connectionString: process.env.DATABASE_URL,
   ssl: !!process.env.SSL,
+  validateChecksums: false,
 };
