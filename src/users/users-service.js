@@ -5,9 +5,9 @@ const bcrypt = require("bcrypt");
 const passwordValidationRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
 
 const UsersService = {
-  containsUserWithEmailAddress(db, email_address) {
+  containsUserWithEmailAddress(db, email) {
     return db("trelloclone_users")
-      .where({ email_address })
+      .where({ email })
       .first()
       .then((user) => !!user);
   },
