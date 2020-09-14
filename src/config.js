@@ -4,4 +4,6 @@ module.exports = {
   DATABASE_URL:
     process.env.DATABASE_URL ||
     "postgresql://ryannicoletti@localhost/trello",
+  JWT_EXPIRY: process.env.JWT_EXPIRY || "3h",
+  JWT_SECRET: process.env.JWT_SECRET || "change-secret",
 };
