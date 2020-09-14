@@ -40,7 +40,7 @@ authRouter.post("/login", jsonBodyParser, (req, res, next) => {
 authRouter.post("/refresh", requiresAuthorization, (req, res) => {
   const subject = req.user.email;
   const payload = { userId: req.user.id };
-  res.sendStatus({
+  res.send({
     authToken: authService.createJwt(subject, payload),
   });
 });
