@@ -6,7 +6,7 @@ const authRouter = express.Router();
 const jsonBodyParser = express.json();
 
 const corsOptions = {
-  origin: "http://localhost:3000/login",
+  origin: "http://localhost:3000",
   optionsSuccessStatus: 200,
 };
 
