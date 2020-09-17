@@ -30,20 +30,23 @@ authRouter.post(
           return res
             .status(400)
             .json({ error: "Incorrect email or password" });
-      });
-    return authService
-      .comparePasswords(userLoggingIn.password, userInDb.password)
-      .then((matchedPw) => {
-        if (!matchedPw)
-          return res
-            .status(400)
-            .json({ error: "Incorrect email or password" });
 
-        const subject = userInDb.email;
-        const payload = { userId: userInDb.id };
-        res.send({ authToken: authService.createJwt(subject, payload) });
-      })
-      .catch(next);
+        return authService
+          .comparePasswords(userLoggingIn.password, userInDb.password)
+          .then((matchedPw) => {
+            if (!matchedPw)
+              return res
+                .status(400)
+                .json({ error: "Incorrect email or password" });
+
+            const subject = userInDb.email;
+            const payload = { userId: userInDb.id };
+            res.send({
+              authToken: authService.createJwt(subject, payload),
+            });
+          })
+          .catch(next);
+      });
   }
 );
 
