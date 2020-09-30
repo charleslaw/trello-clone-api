@@ -27,7 +27,20 @@ boardsRouter
           .location(path.posix.join(req.originalUrl, `/${board.id}`))
           .json(boardsService.serializeBoard(board));
       })
+      .catch((error) => console.log(error))
       .catch(next);
+  });
+
+boardsRouter
+  .route("/")
+  .all(requiresAuthorization)
+  .get((req, res, next) => {
+    boardsService
+      .getAllUserBoards(req.app.get("db"), req.user.id)
+      .then((boards) => {
+        res.json(boards.map(boardsService.serializeBoard));
+      })
+      .catch((error) => console.log(error));
   });
 
 module.exports = boardsRouter;

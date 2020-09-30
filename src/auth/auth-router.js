@@ -4,9 +4,10 @@ const { requiresAuthorization } = require("../middleware/jwt-auth");
 const cors = require("cors");
 const authRouter = express.Router();
 const jsonBodyParser = express.json();
+const config = require("../config");
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: `${config.REQUEST_ORIGIN}`,
   optionsSuccessStatus: 200,
 };
 

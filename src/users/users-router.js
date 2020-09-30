@@ -32,14 +32,15 @@ usersRouter.post("/", jsonBodyParser, (req, res, next) => {
           (user) => {
             res
               .status(201)
-              //.location(path.posix.join(req.originalUrl, `/${user.id}`))
+
+              .location(path.posix.join(req.originalUrl, `/${user.id}`))
               .json(UsersService.serializeUser(user));
           }
-        )
+        );
       });
     })
 
-    .catch(next);
+    .catch((error) => console.log(error));
 });
 
 module.exports = usersRouter;
