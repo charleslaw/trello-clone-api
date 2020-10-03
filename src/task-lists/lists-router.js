@@ -8,16 +8,15 @@ const jsonBodyParser = express.json();
 listsRouter
   .route("/")
   .post(requiresAuthorization, jsonBodyParser, (req, res, next) => {
-    const { listTitle } = req.body;
-    const newList = { title: listTitle };
+    const { list_title: listTitle, board_id: boardId } = req.body;
+    const newList = { list_title: listTitle, board_id: boardId };
 
-    if (listTitle == null)
+    if (newList.list_title == null)
       return res
         .status(400)
         .json({ error: `Missing title in request body` });
 
     newList.user_id = req.user.id;
-    newList.board_id = req.originalUrl.substring(25);
 
     listsService
       .postList(req.app.get("db"), newList)

@@ -13,7 +13,7 @@ const listsService = {
   serializeList(list) {
     return {
       id: list.id,
-      title: xss(list.title),
+      list_title: xss(list.list_title),
       date_created: list.date_created,
       user_id: list.user_id,
       board_id: list.board_id,
