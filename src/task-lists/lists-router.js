@@ -27,16 +27,17 @@ listsRouter
       .catch(next);
   });
 
-// listsRouter
-//   .route("/")
-//   .all(requiresAuthorization)
-//   .get((req, res, next) => {
-//     listsService
-//       .getAllBoardLists(req.app.get("db"), req.user.id)
-//       .then((boards) => {
-//         res.json(boards.map(boardsService.serializeBoard));
-//       })
-//       .catch((error) => console.log(error));
-//   });
+listsRouter
+  .route("/")
+  .all(requiresAuthorization)
+  .get((req, res, next) => {
+    const boardId = req.query.id;
+    listsService
+      .getAllListsByBoardId(req.app.get("db"), boardId)
+      .then((lists) => {
+        res.json(lists.map(listsService.serializeList));
+      })
+      .catch((error) => console.log(error));
+  });
 
 module.exports = listsRouter;
