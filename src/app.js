@@ -7,6 +7,7 @@ const usersRouter = require("./users/users-router");
 const authRouter = require("./auth/auth-router");
 const boardsRouter = require("./boards/boards-router");
 const listsRouter = require("./task-lists/lists-router");
+const tasksRouter = require("./task-cards/task-router");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/boards", boardsRouter);
 app.use("/api/lists", listsRouter);
+app.use("/api/tasks", tasksRouter);
 
 app.get("/", (req, res) => {
   res.send("hello world");
