@@ -19,11 +19,11 @@ const tasksService = {
       list_id: task.list_id,
     };
   },
-  // getAllListsByBoardId(db, boardId) {
-  //   return db
-  //     .select("*")
-  //     .from("trelloclone_lists")
-  //     .where("trelloclone_lists.board_id", boardId);
-  // },
+  getTasksByListId(db, listId) {
+    return db
+      .select("*")
+      .from("trelloclone_tasks")
+      .where("trelloclone_tasks.list_id", listId);
+  },
 };
 module.exports = tasksService;

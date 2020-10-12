@@ -40,4 +40,17 @@ listsRouter
       .catch((error) => console.log(error));
   });
 
+listsRouter.route("/delete").delete((req, res, next) => {
+  const listId = req.query.id;
+  listsService
+    .deleteList(req.app.get("db"), listId)
+    .then((numRowsAffected) => {
+      console.log(numRowsAffected);
+      res.status(204).end();
+    })
+    .catch((error) => console.log(error))
+
+    .catch(next);
+});
+
 module.exports = listsRouter;

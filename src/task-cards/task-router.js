@@ -11,7 +11,7 @@ tasksRouter
     const { title: title, list_id: listId } = req.body;
     const task = { title: title, list_id: listId };
 
-    if (task.title == null)
+    if (task.title.length == 0)
       return res
         .status(400)
         .json({ error: `Missing title in request body` });
@@ -23,8 +23,20 @@ tasksRouter
       .then((task) => {
         res.status(201).json(tasksService.serializeTask(task));
       })
-      .catch((error) => console.log(error))
+      // .catch((error) => console.log(error))
       .catch(next);
+  });
+tasksRouter
+  .route("/")
+  .all(requiresAuthorization)
+  .get((req, res, next) => {
+    const listId = req.query.listid;
+    tasksService
+      .getTasksByListId(req.app.get("db"), listId)
+      .then((tasks) => {
+        res.json(tasks.map(tasksService.serializeTask));
+      })
+      .catch((error) => console.log(error));
   });
 
 module.exports = tasksRouter;

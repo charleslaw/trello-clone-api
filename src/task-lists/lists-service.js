@@ -25,5 +25,10 @@ const listsService = {
       .from("trelloclone_lists")
       .where("trelloclone_lists.board_id", boardId);
   },
+  deleteList(db, listId) {
+    return db("trelloclone_lists")
+      .where("trelloclone_lists.id", listId)
+      .delete();
+  },
 };
 module.exports = listsService;
