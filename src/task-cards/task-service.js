@@ -25,5 +25,10 @@ const tasksService = {
       .from("trelloclone_tasks")
       .where("trelloclone_tasks.list_id", listId);
   },
+  deleteTask(db, taskId) {
+    return db("trelloclone_tasks")
+      .where("trelloclone_tasks.id", taskId)
+      .delete();
+  },
 };
 module.exports = tasksService;

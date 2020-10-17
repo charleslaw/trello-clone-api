@@ -24,5 +24,10 @@ const boardsService = {
       .from("trelloclone_boards")
       .where("trelloclone_boards.user_id", userId);
   },
+  deleteBoard(db, boardId) {
+    return db("trelloclone_boards")
+      .where("trelloclone_boards.id", boardId)
+      .delete();
+  },
 };
 module.exports = boardsService;

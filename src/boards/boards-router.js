@@ -43,4 +43,17 @@ boardsRouter
       .catch((error) => console.log(error));
   });
 
+boardsRouter.route("/delete").delete((req, res, next) => {
+  const boardId = req.query.id;
+  boardsService
+    .deleteBoard(req.app.get("db"), boardId)
+    .then((numRowsAffected) => {
+      console.log(numRowsAffected);
+      res.status(204).end();
+    })
+    .catch((error) => console.log(error))
+
+    .catch(next);
+});
+
 module.exports = boardsRouter;

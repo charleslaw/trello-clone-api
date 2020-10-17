@@ -39,4 +39,17 @@ tasksRouter
       .catch((error) => console.log(error));
   });
 
+tasksRouter.route("/delete").delete((req, res, next) => {
+  const taskId = req.query.id;
+  tasksService
+    .deleteTask(req.app.get("db"), taskId)
+    .then((numRowsAffected) => {
+      console.log(numRowsAffected);
+      res.status(204).end();
+    })
+    .catch((error) => console.log(error))
+
+    .catch(next);
+});
+
 module.exports = tasksRouter;
