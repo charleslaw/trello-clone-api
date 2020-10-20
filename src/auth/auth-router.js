@@ -46,6 +46,7 @@ authRouter.post(
               authToken: authService.createJwt(subject, payload),
             });
           })
+
           .catch(next);
       });
   }
