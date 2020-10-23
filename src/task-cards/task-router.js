@@ -7,7 +7,7 @@ const jsonBodyParser = express.json();
 
 tasksRouter
   .route("/")
-  .post(requiresAuthorization, jsonBodyParser, (req, res, next) => {
+  .post(requiresAuthorization, jsonBodyParser, async (req, res, next) => {
     const { title: title, list_id: listId } = req.body;
     const task = { title: title, list_id: listId };
 
@@ -18,38 +18,47 @@ tasksRouter
 
     task.user_id = req.user.id;
 
-    tasksService
-      .postTask(req.app.get("db"), task)
-      .then((task) => {
-        res.status(201).json(tasksService.serializeTask(task));
-      })
-      // .catch((error) => console.log(error))
-      .catch(next);
+    try {
+      const taskToDb = await tasksService.postTask(
+        req.app.get("db"),
+        task
+      );
+      return res.status(201).json(tasksService.serializeTask(taskToDb));
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   });
 tasksRouter
   .route("/")
   .all(requiresAuthorization)
-  .get((req, res, next) => {
+  .get(async (req, res, next) => {
     const listId = req.query.listid;
-    tasksService
-      .getTasksByListId(req.app.get("db"), listId)
-      .then((tasks) => {
-        res.json(tasks.map(tasksService.serializeTask));
-      })
-      .catch((error) => console.log(error));
+    try {
+      const tasks = await tasksService.getTasksByListId(
+        req.app.get("db"),
+        listId
+      );
+      return res.json(tasks.map(tasksService.serializeTask));
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   });
 
-tasksRouter.route("/delete").delete((req, res, next) => {
+tasksRouter.route("/delete").delete(async (req, res, next) => {
   const taskId = req.query.id;
-  tasksService
-    .deleteTask(req.app.get("db"), taskId)
-    .then((numRowsAffected) => {
-      console.log(numRowsAffected);
-      res.status(204).end();
-    })
-    .catch((error) => console.log(error))
-
-    .catch(next);
+  try {
+    const numRowsAffected = await tasksService.deleteTask(
+      req.app.get("db"),
+      taskId
+    );
+    console.log(numRowsAffected);
+    return res.status(204).end();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 
 module.exports = tasksRouter;
