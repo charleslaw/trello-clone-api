@@ -17,14 +17,17 @@ usersRouter.post(
   cors(corsOptions),
   jsonBodyParser,
   (req, res, next) => {
-    const { email, password } = req.body;
-    for (const field of ["email", "password"])
+    const { email, password, confirmPassword } = req.body;
+    for (const field of ["email", "password", "confirmPassword"])
       if (!req.body[field])
         return res
           .status(400)
           .json({ error: `Missing '${field}' in request body` });
 
-    const passwordError = UsersService.validatePassword(password);
+    const passwordError = UsersService.validatePassword(
+      password,
+      confirmPassword
+    );
     if (passwordError)
       return res.status(400).json({ error: passwordError });
 

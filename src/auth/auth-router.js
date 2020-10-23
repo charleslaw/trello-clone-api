@@ -15,7 +15,7 @@ authRouter.post(
   "/login",
   cors(corsOptions),
   jsonBodyParser,
-  (req, res, next) => {
+  async (req, res, next) => {
     const { email, password } = req.body;
     const userLoggingIn = { email, password };
 
@@ -24,31 +24,34 @@ authRouter.post(
         return res
           .status(400)
           .json({ error: `Missing '${key}' in request body` });
-    authService
-      .confirmUserNameExists(req.app.get("db"), userLoggingIn.email)
-      .then((userInDb) => {
-        if (!userInDb)
-          return res
-            .status(400)
-            .json({ error: "Incorrect email or password" });
+    try {
+      const userInDb = await authService.confirmUserNameExists(
+        req.app.get("db"),
+        userLoggingIn.email
+      );
+      if (!userInDb)
+        return res
+          .status(400)
+          .json({ error: "Incorrect email or password" });
 
-        return authService
-          .comparePasswords(userLoggingIn.password, userInDb.password)
-          .then((matchedPw) => {
-            if (!matchedPw)
-              return res
-                .status(400)
-                .json({ error: "Incorrect email or password" });
+      const matchedPw = await authService.comparePasswords(
+        userLoggingIn.password,
+        userInDb.password
+      );
+      if (!matchedPw)
+        return res
+          .status(400)
+          .json({ error: "Incorrect email or password" });
 
-            const subject = userInDb.email;
-            const payload = { userId: userInDb.id };
-            res.send({
-              authToken: authService.createJwt(subject, payload),
-            });
-          })
-
-          .catch(next);
+      const subject = userInDb.email;
+      const payload = { userId: userInDb.id };
+      res.send({
+        authToken: authService.createJwt(subject, payload),
       });
+    } catch (error) {
+      next(error);
+      return res.status(400).json({ error: "error logging in" });
+    }
   }
 );
 

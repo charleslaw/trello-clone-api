@@ -28,7 +28,7 @@ const UsersService = {
       date_created: new Date(user.date_created),
     };
   },
-  validatePassword(password) {
+  validatePassword(password, confirmPassword) {
     if (password.length < 8) {
       return "Password must be longer than 8 characters";
     }
@@ -40,6 +40,9 @@ const UsersService = {
     }
     if (!passwordValidationRegex.test(password)) {
       return "Password must contain at least 1 lower case letter, 1 upper case letter, 1 number, and 1 special character";
+    }
+    if (password != confirmPassword) {
+      return "Passwords must match";
     }
     return null;
   },
