@@ -11,6 +11,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+// handle post request to login end point (user logging in)
 authRouter.post(
   "/login",
   cors(corsOptions),
@@ -55,6 +56,7 @@ authRouter.post(
   }
 );
 
+// hand post request to refresh end point-create new jwt and send to client
 authRouter.post("/refresh", requiresAuthorization, (req, res) => {
   const subject = req.user.email;
   const payload = { userId: req.user.id };

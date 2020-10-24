@@ -12,6 +12,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+// Create new user with email and password-handles post request to users endpoint
 usersRouter.post(
   "/",
   cors(corsOptions),

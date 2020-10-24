@@ -5,6 +5,7 @@ const { requiresAuthorization } = require("../middleware/jwt-auth");
 const tasksRouter = express.Router();
 const jsonBodyParser = express.json();
 
+// Create new task-handles post request to tasks end point
 tasksRouter
   .route("/")
   .post(requiresAuthorization, jsonBodyParser, async (req, res, next) => {
@@ -29,6 +30,8 @@ tasksRouter
       next(error);
     }
   });
+
+// Get all tasks-handles get request to tasks end point
 tasksRouter
   .route("/")
   .all(requiresAuthorization)
@@ -46,6 +49,7 @@ tasksRouter
     }
   });
 
+// Delete task based on task ID-handles delete request to tasks end point
 tasksRouter.route("/delete").delete(async (req, res, next) => {
   const taskId = req.query.id;
   try {

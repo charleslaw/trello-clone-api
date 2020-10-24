@@ -5,6 +5,7 @@ const { requiresAuthorization } = require("../middleware/jwt-auth");
 const boardsRouter = express.Router();
 const jsonBodyParser = express.json();
 
+// Create new board-handle post request to boards end point
 boardsRouter
   .route("/")
   .post(requiresAuthorization, jsonBodyParser, async (req, res, next) => {
@@ -30,6 +31,7 @@ boardsRouter
     }
   });
 
+// Get all boards-handle get request to boards end point
 boardsRouter
   .route("/")
   .all(requiresAuthorization)
@@ -46,6 +48,7 @@ boardsRouter
     }
   });
 
+// Delete board based on board ID-handle delete request to boards end point
 boardsRouter.route("/delete").delete(async (req, res, next) => {
   const boardId = req.query.id;
 
