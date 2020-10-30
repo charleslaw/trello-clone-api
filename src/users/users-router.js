@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const UsersService = require("./users-service");
 const authService = require("../auth/auth-service");
 const cors = require("cors");
@@ -56,8 +55,6 @@ usersRouter.post(
               });
               return res
                 .status(201)
-
-                .location(path.posix.join(req.originalUrl, `/${user.id}`))
                 .json(UsersService.serializeUser(user));
             });
           }
