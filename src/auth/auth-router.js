@@ -52,7 +52,6 @@ authRouter.post(
     } catch (error) {
       return res.status(400).json({ error: "error logging in" });
       next(error);
-      // return res.status(400).json({ error: "error logging in" });
     }
   }
 );
