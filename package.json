@@ -2,6 +2,9 @@
   "name": "trello-clone-api",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "12.x"
+  },
   "main": "index.js",
   "scripts": {
     "test": "mocha --require test/setup.js",
