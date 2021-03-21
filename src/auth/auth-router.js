@@ -6,15 +6,15 @@ const authRouter = express.Router();
 const jsonBodyParser = express.json();
 const config = require("../config");
 
-// const corsOptions = {
-//   origin: `${config.REQUEST_ORIGIN}`,
-//   optionsSuccessStatus: 200,
-// };
+const corsOptions = {
+  origin: `${config.REQUEST_ORIGIN}`,
+  optionsSuccessStatus: 200,
+};
 
 // handle post request to login end point (user logging in)
 authRouter.post(
   "/login",
-  // cors(corsOptions),
+  cors(corsOptions),
   jsonBodyParser,
   async (req, res, next) => {
     const { email, password } = req.body;
