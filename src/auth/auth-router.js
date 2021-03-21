@@ -50,6 +50,7 @@ authRouter.post(
         authToken: authService.createJwt(subject, payload),
       });
     } catch (error) {
+      console.log(error);
       return res.status(400).json({ error: "error logging in" });
       next(error);
     }
