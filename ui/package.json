@@ -8,7 +8,8 @@
     "devserve": "webpack-dev-server --mode=development",
     "dev": "rimraf dist && webpack --mode=development",
     "prod": "rimraf dist && webpack --mode=production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier \"src/**/*.{js,jsx}\" --write"
   },
   "repository": {
     "type": "git",
@@ -43,8 +44,12 @@
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "html-webpack-plugin": "^4.3.0",
     "path": "^0.12.7",
+    "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
