@@ -1,10 +1,72 @@
 # Trello Clone API
 
-## Build UI
+## Setup
 
-cd ui
-npm install
-npm run build
+### Build UI
+
+    cd ui
+    npm install
+    npm run build
+
+### Set up Postgres Server/Process
+
+Install postgres (version 10 or higher) and log into the DB.
+
+On Linux, this is:
+
+    sudo apt-get -y install postgresql
+    # You may need to run a command like, watch the install output: pg_ctlcluster 12 main start
+    # You may also need to run: sudo systemctl start postgresql@12-main
+    sudo -u postgres psql
+
+On MacOS you can use postgress app: <https://postgresapp.com/> then run
+
+    psql -h localhost
+
+After logging into postgres, create a database for this trello app:
+
+    create database trello;
+    create user trelloadmin with encrypted password 'securePassword';
+    grant all privileges on database trello to trelloadmin;
+    exit
+
+Test it works by typing:
+
+    psql -U trelloadmin --password trello
+
+It did not work for me on Linux, I had to change a line in 
+`/etc/postgresql/12/main/pg_hba.conf` to allow password authentication
+
+    # FROM:
+    local   all             all                                     peer
+    # TO:
+    local   all             all                                     md5
+
+Finally, open `src/config.js` and confirm the username, password, and
+database are all specified correctly
+
+    postgresql://trelloadmin:securePassword@localhost/trello
+
+
+### Migrate the DB
+
+Create a `.env` file in the root of this repo and specify the postgres information
+
+    DATABASE_URL="postgresql://trelloadmin:securePassword@localhost/trello
+
+The run migrations:
+
+    npm run migrate
+
+
+### Start the server
+
+Run the server and create a user for testing. We will manually run
+the command to create the user:
+
+    curl http://127.0.0.1:8000/api/users -X POST --header "Content-Type: application/json" -d '{"email": "charles.law@gmail.com", "password": "Mypass1@#", "confirmPassword": "Mypass1@#"}'
+
+
 
 ## Run the app (server)
 
