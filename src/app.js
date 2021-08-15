@@ -22,10 +22,10 @@ app.use("/api/auth", authRouter);
 app.use("/api/boards", boardsRouter);
 app.use("/api/lists", listsRouter);
 app.use("/api/tasks", tasksRouter);
+app.use("/favicon.ico", (req, res) => res.send(404));
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+app.use(express.static('ui/dist'));
+app.get('*', (req, res) => res.sendFile(path.resolve('ui', 'dist', 'index.html')));
 
 app.use(function errorHandler(error, req, res, next) {
   let response;

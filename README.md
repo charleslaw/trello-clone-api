@@ -1,6 +1,12 @@
 # Trello Clone API
 
-## Run the app
+## Build UI
+
+cd ui
+npm install
+npm run build
+
+## Run the app (server)
 
 npm run dev
 
