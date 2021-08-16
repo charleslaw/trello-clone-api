@@ -4,9 +4,3 @@ body {
   padding: 0;
   height: 100%;
 }
-
-.AppContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

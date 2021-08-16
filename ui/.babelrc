@@ -20,6 +20,7 @@
     "@babel/preset-react"
   ],
   "plugins": [
+    "jsx-control-statements",
     "@babel/plugin-proposal-class-properties",
     ["@babel/transform-runtime"]
   ]

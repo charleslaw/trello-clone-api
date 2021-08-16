@@ -1,13 +1,29 @@
-# Trello Clone API
+# Trello Clone React/Redux Tutorial
+
+## Overview
+
+This project is intended for anyone interested in practicing Front-end
+development with React, Redux, and Sagas.
+
+This repository has a ready and working Trello clone API (built by
+Ryan Nicoletti, @RyanNicoletti) that is missing a matching Front-end. 
+
+A React/Redux/Sagas boilerplate made by @manishaggarwalm was used as a
+foundation for the UI, and a simple Login UI was built by me that could be
+used as an example and starting point for making a more complete UI.
+
+Notes for setting up the server were gathered and tested on Linux.
+
+
 
 
 ## Setup
 
-### Build UI
+### Build the React UI
 
     cd ui
     npm install
-    npm run build
+    npm run build:dev
 
 ### Set up Postgres Server/Process
 
@@ -20,7 +36,7 @@ On Linux, this is:
     # You may also need to run: sudo systemctl start postgresql@12-main
     sudo -u postgres psql
 
-On MacOS you can use postgress app: <https://postgresapp.com/> then run
+On MacOS you can use postgress app: <https://postgresapp.com/> then to log in run
 
     psql -h localhost
 
@@ -43,54 +59,92 @@ It did not work for me on Linux, I had to change a line in
     # TO:
     local   all             all                                     md5
 
+Then I restarted postgres using `sudo systemctl restart postgresql@12-main`
+
 Finally, open `src/config.js` and confirm the username, password, and
-database are all specified correctly
+database are all specified correctly in the config
 
     postgresql://trelloadmin:securePassword@localhost/trello
 
 
 ### Migrate the DB
 
-Create a `.env` file in the root of this repo and specify the postgres information
+Create a `.env` file in the **root** of this repo and specify the postgres information
 
     DATABASE_URL="postgresql://trelloadmin:securePassword@localhost/trello
 
-The run migrations:
+In the root dir, run migrations:
 
     npm run migrate
 
 
 ### Start the server
 
-Run the server and create a user for testing.
+Run the server, from the root dir so we can make API calls.
 
     npm run dev
 
-We will manually make an API call to create the user:
+We will manually make an API call to create a first user:
 
     curl http://127.0.0.1:8000/api/users -X POST --header "Content-Type: application/json" -d '{"email": "charles.law@gmail.com", "password": "Mypass1@#", "confirmPassword": "Mypass1@#"}'
 
 
 
+
 ## Development: Getting Started
 
-Get your bearings. Inspect the following files:
+### Tech Stack
 
-  * 
+This uses several libraries that would be good to get familiar with:
+
+* react: for drawing the UI
+* redux: for managing state of the UI
+* sagas: for making API calls
+* jsx control statements: not build into react, but everyone's doing it
+* prettier/eslint for formatting and some high level error checking
+
+The server tech stack does not really mean anything, the goal is to build a UI.
+But for the sake of completeness, and to save time for anyone who would just
+poke around the code anyways, the server users:
+
+* express for the web framework to handling incoming API requests
+* postgres (postgresql/psql) for the DB
+* postgrator for DB migrations (and setup)
+* jwt (json web tokens) for sessions
+
+Also note, the UI and API are independent. They both happen to use
+JavaScript, but the API could easily have been written (or be rewritten) in
+Python or Golang. Be aware of what commands run from the root directory
+(for the API) or the `ui/` directory for the UI.
+
+
+### Tools:
+
+You hopefully have an IDE set up. If you don't have one, VS Code is a good
+and safe option.
+
+It helps immesely to have Redux Dev Tools installed for your browser. This
+makes debugging much much faster and easier.
+
+### Cheatsheet commands
+
+For the API, in the repo's root directory, there is a single command that
+will be used 95% of the time.  It is the command to run the server:
+
+    npm run dev
+
+For the UI, in the `ui/` directory, there are three command that will
+cover most casesL
+
+    # Reformat the code nicely
+    npm run format
+    # Build the development build
+    npm run build:dev
+    # Build the production build
+    npm run build:prod
 
 
 
-* redux dev tools
-* npm run format
-* npm run build
-
-
-
-
-
-## Run the app (server)
-
-npm run dev
 
 # REST API
 
