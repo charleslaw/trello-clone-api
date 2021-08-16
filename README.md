@@ -1,5 +1,6 @@
 # Trello Clone API
 
+
 ## Setup
 
 ### Build UI
@@ -61,10 +62,29 @@ The run migrations:
 
 ### Start the server
 
-Run the server and create a user for testing. We will manually run
-the command to create the user:
+Run the server and create a user for testing.
+
+    npm run dev
+
+We will manually make an API call to create the user:
 
     curl http://127.0.0.1:8000/api/users -X POST --header "Content-Type: application/json" -d '{"email": "charles.law@gmail.com", "password": "Mypass1@#", "confirmPassword": "Mypass1@#"}'
+
+
+
+## Development: Getting Started
+
+Get your bearings. Inspect the following files:
+
+  * 
+
+
+
+* redux dev tools
+* npm run format
+* npm run build
+
+
 
 
 

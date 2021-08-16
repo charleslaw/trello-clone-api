@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "webpack-dev-server": "webpack-dev-server",
-    "devserve": "webpack-dev-server --mode=development",
-    "dev": "rimraf dist && webpack --mode=development",
-    "prod": "rimraf dist && webpack --mode=production",
+    "serve:dev": "webpack-dev-server --mode=development",
+    "build:dev": "rimraf dist && webpack --mode=development",
+    "build:prod": "rimraf dist && webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier \"src/**/*.{js,jsx}\" --write"
   },
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/manishaggarwalm/react-redux-saga-boilerplate#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",

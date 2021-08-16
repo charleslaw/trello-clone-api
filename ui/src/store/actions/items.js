@@ -1,16 +1,11 @@
 // types of action
 export const Types = {
-  CREATE_ITEM: "CREATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  SAVE_LOG_IN_USER: "SAVE_LOG_IN_USER",
+  LOG_IN_USER: "LOG_IN_USER",
 };
 
 // actions
-export const createItem = (task) => ({
-  type: Types.CREATE_ITEM,
-  payload: task,
-});
-
-export const deleteItem = (id) => ({
-  type: Types.DELETE_ITEM,
-  payload: id,
+export const saveLogInUser = (payload) => ({
+  type: Types.SAVE_LOG_IN_USER,
+  payload,
 });
