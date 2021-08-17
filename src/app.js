@@ -23,7 +23,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/boards", boardsRouter);
 app.use("/api/lists", listsRouter);
 app.use("/api/tasks", tasksRouter);
-app.use("/favicon.ico", (req, res) => res.send(404));
+app.use("/favicon.ico", (req, res) => res.sendStatus(404));
 
 app.use(express.static('ui/dist'));
 app.get('*', (req, res) => res.sendFile(path.resolve('ui', 'dist', 'index.html')));

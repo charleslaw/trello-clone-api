@@ -88,5 +88,18 @@ authRouter.get("/whoami", requiresAuthorization, (req, res) => {
   }
 });
 
+// Get all boards-handle get request to boards end point
+authRouter.post("/logout", requiresAuthorization, (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+        httpOnly: true,
+        expires: new Date(1),
+    }).sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(200);
+  }
+});
+
 
 module.exports = authRouter;
