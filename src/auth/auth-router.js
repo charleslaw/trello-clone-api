@@ -46,8 +46,13 @@ authRouter.post(
 
       const subject = userInDb.email;
       const payload = { userId: userInDb.id };
-      res.send({
-        authToken: authService.createJwt(subject, payload),
+      const token = authService.createJwt(subject, payload);
+      // Storing it secure true is highly recommended for production
+      // servers that support HTTPS
+      res.cookie(
+        'jwt', token, { httpOnly: true, maxAge: 3600000 },
+      ).send({
+        authToken: token,
       });
     } catch (error) {
       console.log(error);
@@ -61,8 +66,13 @@ authRouter.post(
 authRouter.post("/refresh", requiresAuthorization, (req, res) => {
   const subject = req.user.email;
   const payload = { userId: req.user.id };
-  res.send({
-    authToken: authService.createJwt(subject, payload),
+  const token = authService.createJwt(subject, payload);
+  // Storing it secure true is highly recommended for production
+  // servers that support HTTPS
+  res.cookie(
+    'jwt', token, { httpOnly: true, maxAge: 3600000 },
+  ).send({
+    authToken: token,
   });
 });
 

@@ -1,17 +1,10 @@
 const authService = require("../auth/auth-service");
 
 const requiresAuthorization = async (req, res, next) => {
-  const authToken = req.get("Authorization") || "";
-
-  let bearerToken;
-  if (!authToken.toLowerCase().startsWith("bearer ")) {
-    return res.status(401).json({ error: "Missing bearer token" });
-  } else {
-    bearerToken = authToken.slice(7, authToken.length);
-  }
+  const authToken = req.cookies.jwt || "";
 
   try {
-    const payload = authService.verifyJwt(bearerToken);
+    const payload = authService.verifyJwt(authToken);
 
     const user = await authService.confirmUserNameExists(
       req.app.get("db"),

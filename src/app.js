@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
 const { NODE_ENV } = require("./config");
 const usersRouter = require("./users/users-router");
 const authRouter = require("./auth/auth-router");
@@ -14,7 +15,7 @@ const app = express();
 const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 app.use(morgan(morganOption));
 app.use(cors());
-
+app.use(cookieParser());
 app.use(helmet());
 
 app.use("/api/users", usersRouter);
