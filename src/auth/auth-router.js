@@ -76,4 +76,17 @@ authRouter.post("/refresh", requiresAuthorization, (req, res) => {
   });
 });
 
+// Get all boards-handle get request to boards end point
+authRouter.get("/whoami", requiresAuthorization, (req, res) => {
+  try {
+    return res.send({
+      email: req.user.email
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({ error: "error reading user for cookie" });
+  }
+});
+
+
 module.exports = authRouter;
