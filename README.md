@@ -1,6 +1,6 @@
 # Trello Clone React/Redux Tutorial
 
-## Overview
+# Overview
 
 This project is intended for anyone interested in practicing Front-end
 development with React, Redux, and Sagas.
@@ -12,20 +12,20 @@ A React/Redux/Sagas boilerplate made by @manishaggarwalm was used as a
 foundation for the UI, and a simple Login UI was built by me that could be
 used as an example and starting point for making a more complete UI.
 
-Notes for setting up the server were gathered and tested on Linux.
+Notes for setting up the server were gathered and tested on Ubuntu 20.04
+and MacOS Mojave.
 
 
 
+# Setup
 
-## Setup
-
-### Build the React UI
+## Build the React UI
 
     cd ui
     npm install
     npm run build:dev
 
-### Set up Postgres Server/Process
+## Set up Postgres Server/Process
 
 Install postgres (version 10 or higher) and log into the DB.
 
@@ -51,23 +51,25 @@ Test it works by typing:
 
     psql -U trelloadmin --password trello
 
-It did not work for me on Linux, I had to change a line in 
-`/etc/postgresql/12/main/pg_hba.conf` to allow password authentication
+For Linux, I had to make sure that postgres allowed for password
+authentication. For postgres 12, check `/etc/postgresql/12/main/pg_hba.conf`
+and change the following:
 
     # FROM:
     local   all             all                                     peer
     # TO:
     local   all             all                                     md5
 
-Then I restarted postgres using `sudo systemctl restart postgresql@12-main`
+and restart postgres using `sudo systemctl restart postgresql@12-main`
 
-Finally, open `src/config.js` and confirm the username, password, and
-database are all specified correctly in the config
+Regardless of OS, once logging into the server, open `src/config.js` and
+confirm the username, password, and database are all specified correctly
+in the config
 
     postgresql://trelloadmin:securePassword@localhost/trello
 
 
-### Migrate the DB
+## Migrate the DB
 
 Create a `.env` file in the **root** of this repo and specify the postgres information
 
@@ -78,7 +80,7 @@ In the root dir, run migrations:
     npm run migrate
 
 
-### Start the server
+## Start the server
 
 Run the server, from the root dir so we can make API calls.
 
@@ -91,9 +93,9 @@ We will manually make an API call to create a first user:
 
 
 
-## Development: Getting Started
+# Development: Getting Started
 
-### Tech Stack
+## Tech Stack
 
 This uses several libraries that would be good to get familiar with:
 
@@ -103,7 +105,7 @@ This uses several libraries that would be good to get familiar with:
 * jsx control statements: not build into react, but everyone's doing it
 * prettier/eslint for formatting and some high level error checking
 
-The server tech stack does not really mean anything, the goal is to build a UI.
+The server (API) tech stack is not significant, the goal is to build a UI.
 But for the sake of completeness, and to save time for anyone who would just
 poke around the code anyways, the server users:
 
@@ -114,19 +116,20 @@ poke around the code anyways, the server users:
 
 Also note, the UI and API are independent. They both happen to use
 JavaScript, but the API could easily have been written (or be rewritten) in
-Python or Golang. Be aware of what commands run from the root directory
-(for the API) or the `ui/` directory for the UI.
+Python or Golang, or any language. Be aware of what commands run from the
+root directory (for the API) or the `ui/` directory for the UI.
 
 
-### Tools:
+## Tools:
 
 You hopefully have an IDE set up. If you don't have one, VS Code is a good
 and safe option.
 
-It helps immesely to have Redux Dev Tools installed for your browser. This
-makes debugging much much faster and easier.
+It helps immesely to have Redux Dev Tools (not to be confused with React Dev
+Tools) installed for your browser. This makes debugging much much faster
+and easier.
 
-### Cheatsheet commands
+## Cheatsheet commands
 
 For the API, in the repo's root directory, there is a single command that
 will be used 95% of the time.  It is the command to run the server:
@@ -142,6 +145,45 @@ cover most casesL
     npm run build:dev
     # Build the production build
     npm run build:prod
+
+## The codebase
+
+The codebase has the following important files
+
+* `ui/src/App.js` - where the React code begins. 
+* `ui/store` - where everything Redux is located
+* `ui/store/actions/items.js` - where the actions are defined. Actions are usually called directly from React or from Sagas (see below)
+* `ui/store/reducers/index.js` - has initial state, and synchronous reducers - these are the reducers that write to state
+* `ui/store/sagas/index.js` handles asyncronous actions - these are actions that usually *initiate* API calls. Most of the time data returned from the API, or handling of errors from failed API calls, will result in dispatching a syncronous action that stores something in the redux state to trigger showing data or showing an error message.
+
+
+
+
+# What To Do:
+
+Below are a few ideas to get started. Refer to the codebase section
+above to get an idea of how items work
+
+* Create a New User Form
+* Create a UI for adding a board
+* Create a UI for showing your current boards
+
+The ultimate goal is to build a UI that can do what Trello does - at least
+a small part of it, specifically show `Boards`, opening the board, and seeing
+the `Lists` (swimlames/columns) for that board, and adding `Tasks` to the
+lists. So the final UI should have:
+
+* Show a user their `Boards`
+* Make a UI for users to add new `Boards`
+* When opening a board, the UI shows the `Lists` (columns/swimlanes) for that board
+* Make a UI for adding `Lists` to a `Board`
+* When displaying a `List` show all the `Tasks` in the `List`
+* Make a UI for users to add a `Task` to a `List`
+
+If you're feeling adventerous, and want to work on the backend a little,
+and looking for a challenge, study the code and add an endpoint to move a
+`Task` to a new `List`. Then implement drag-and-drop in the UI to move
+a task between lists.
 
 
 
