@@ -19,12 +19,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         enforce: "pre",
         use: ["source-map-loader"],
       },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: "babel-loader",
       },
@@ -42,9 +42,6 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
       filename: "index.html",
-    }),
-    new SourceMapDevToolPlugin({
-      filename: "[file].map",
     }),
   ],
 };
